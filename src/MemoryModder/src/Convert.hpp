@@ -60,3 +60,28 @@ template<>
 constexpr UInt8 FromString<UInt8>(String string, int modifiers) {
     return static_cast<UInt8>(FromString<UInt16>(string, modifiers));
 }
+
+/// <summary>
+/// Abbreviates an integer to unit prefixes, e.g. kilo, mega, giga, tera, etc.
+/// </summary>
+template<typename T>
+constexpr String AbbreviateInteger(T const value) {
+    constexpr SizeT const scale = 1000;
+    constexpr char const* const units[] = {"", "K", "M", "G", "T", "P"};
+    constexpr SizeT const unitCount = sizeof(units) / sizeof(units[0]);
+
+    SizeT index = 0;
+    T val = value;
+    while((val >= scale) && (index < unitCount)) {
+        val /= scale;
+        ++index;
+    }
+
+    if(index < unitCount) {
+        return ToString<T>(val) + units[index];
+    }
+    else {
+        // If scale is out of range, return raw result
+        return ToString<T>(value);
+    }
+}

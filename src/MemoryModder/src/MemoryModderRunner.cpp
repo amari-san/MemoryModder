@@ -26,12 +26,10 @@ void DisplayMemoryUsage() {
     SizeT used, total;
     GetMemoryUsage(used, total);
 
-    Float32 amount = Float32(used) / Float32(total);
-
-    SizeT const mega = 1000000;
+    Float32 amount = static_cast<Float32>(used) / static_cast<Float32>(total);
 
     Console::SetTextStyle(FOREGROUND_RED | FOREGROUND_GREEN);
-    Console::WriteLine("Memory: " + ToString<Int32>(Int32(amount * 100.0F)) + "% (" + ToString<SizeT>(used / mega) + " / " + ToString<SizeT>(total / mega) + " MB)");
+    Console::WriteLine("Memory: " + ToString<Int32>(static_cast<Int32>(amount * 100.0F)) + "% (" + AbbreviateInteger<SizeT>(used) + "B / " + AbbreviateInteger<SizeT>(total) + "B)");
     Console::ResetTextStyle();
 }
 
@@ -258,7 +256,7 @@ void MemoryModdingFindWriteAddresses(MemoryModder const& modder, MemoryList<T> c
 
         Console::WriteLine("List statistics:");
         Console::WriteLine("|-Addresses: " + ToString<SizeT>(size));
-        Console::WriteLine("|-Size: " + ToString<SizeT>(sizeReal) + " B / " + ToString<SizeT>(sizeReal / 1000) + " KB / " + ToString<SizeT>(sizeReal / 1000000) + " MB");
+        Console::WriteLine("|-Size: " + AbbreviateInteger<SizeT>(sizeReal) + "B");
         Console::WriteLine("|-Fragmented: " + ToString<Int32>(static_cast<Int32>(fragmented * 100.0F)) + "%");
 
         Console::SetTextStyle(FOREGROUND_INTENSITY);
@@ -295,15 +293,17 @@ void BeginMemoryModdingFindProcess(MemoryModder& modder) {
     while(true) {
         Console::Clear();
 
-        SizeT sizeCurrent = data.GetSize();
-        Console::SetTextStyle(FOREGROUND_INTENSITY);
-        Console::WriteLine("-" + ToString<SizeT>(sizeLast - sizeCurrent) + " from previous snapshot.");
-        Console::ResetTextStyle();
-        sizeLast = sizeCurrent;
+        {
+            SizeT sizeCurrent = data.GetSize();
+            Console::SetTextStyle(FOREGROUND_INTENSITY);
+            Console::WriteLine("-" + ToString<SizeT>(sizeLast - sizeCurrent) + " from previous snapshot.");
+            Console::ResetTextStyle();
+            sizeLast = sizeCurrent;
+        }
 
         MemoryModdingFindWriteAddresses<T>(modder, data, 16);
 
-        if(!ConsoleAskYesNoQuestion("Filter?", true, true)) {
+        if(!ConsoleAskYesNoQuestion("Filter", true, true)) {
             break;
         }
 
@@ -397,7 +397,7 @@ void BeginMemoryModdingTypeOptions(MemoryModder& modder) {
     while(true) {
         Console::Clear();
         Console::SetTextStyle(FOREGROUND_INTENSITY);
-        Console::Write("Memory: Modding: Type: [back, int8, int16, int32, int64, uint8, uint16, uint32, uint64, float32, float64]: ");
+        Console::Write("Memory: Modding: Data Type: [back, int8, int16, int32, int64, uint8, uint16, uint32, uint64, float32, float64]: ");
         Console::ResetTextStyle();
         String typeString = Console::ReadLine();
 
@@ -444,7 +444,7 @@ void BeginProcessOptions(MemoryModder& modder) {
     while(true) {
         Console::Clear();
         Console::SetTextStyle(FOREGROUND_INTENSITY);
-        Console::Write("Options: [back, mod]: ");
+        Console::Write("Memory: [back, mod]: ");
         Console::ResetTextStyle();
         String task = Console::ReadLine();
 

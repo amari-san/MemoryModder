@@ -19,67 +19,73 @@ using SizeT = size_t;
 using String = std::string;
 
 template<typename T>
-char const* GetTypeName() = delete;
+constexpr char const* GetTypeName() = delete;
 
 template<>
-char const* GetTypeName<Int8>() { return "Int8"; }
+constexpr char const* GetTypeName<Boolean>() { return "Boolean"; }
 
 template<>
-char const* GetTypeName<Int16>() { return "Int16"; }
+constexpr char const* GetTypeName<Int8>() { return "Int8"; }
 
 template<>
-char const* GetTypeName<Int32>() { return "Int32"; }
+constexpr char const* GetTypeName<Int16>() { return "Int16"; }
 
 template<>
-char const* GetTypeName<Int64>() { return "Int64"; }
+constexpr char const* GetTypeName<Int32>() { return "Int32"; }
 
 template<>
-char const* GetTypeName<UInt8>() { return "UInt8"; }
+constexpr char const* GetTypeName<Int64>() { return "Int64"; }
 
 template<>
-char const* GetTypeName<UInt16>() { return "UInt16"; }
+constexpr char const* GetTypeName<UInt8>() { return "UInt8"; }
 
 template<>
-char const* GetTypeName<UInt32>() { return "UInt32"; }
+constexpr char const* GetTypeName<UInt16>() { return "UInt16"; }
 
 template<>
-char const* GetTypeName<UInt64>() { return "UInt64"; }
+constexpr char const* GetTypeName<UInt32>() { return "UInt32"; }
 
 template<>
-char const* GetTypeName<Float32>() { return "Float32"; }
+constexpr char const* GetTypeName<UInt64>() { return "UInt64"; }
 
 template<>
-char const* GetTypeName<Float64>() { return "Float64"; }
+constexpr char const* GetTypeName<Float32>() { return "Float32"; }
+
+template<>
+constexpr char const* GetTypeName<Float64>() { return "Float64"; }
 
 template<typename T>
-SizeT GetBitSize() = delete;
+constexpr SizeT GetBitSize() = delete;
 
 template<>
-SizeT GetBitSize<Int8>() { return 8; }
+constexpr SizeT GetBitSize<Boolean>() { return 1; }
 
 template<>
-SizeT GetBitSize<Int16>() { return 16; }
+constexpr SizeT GetBitSize<Int8>() { return 8; }
 
 template<>
-SizeT GetBitSize<Int32>() { return 32; }
+constexpr SizeT GetBitSize<Int16>() { return 16; }
 
 template<>
-SizeT GetBitSize<Int64>() { return 64; }
+constexpr SizeT GetBitSize<Int32>() { return 32; }
 
 template<>
-SizeT GetBitSize<UInt8>() { return 8; }
+constexpr SizeT GetBitSize<Int64>() { return 64; }
 
 template<>
-SizeT GetBitSize<UInt16>() { return 16; }
+constexpr SizeT GetBitSize<UInt8>() { return 8; }
 
 template<>
-SizeT GetBitSize<UInt32>() { return 32; }
+constexpr SizeT GetBitSize<UInt16>() { return 16; }
 
 template<>
-SizeT GetBitSize<UInt64>() { return 64; }
+constexpr SizeT GetBitSize<UInt32>() { return 32; }
 
 template<>
-SizeT GetBitSize<Float32>() { return 32; }
+constexpr SizeT GetBitSize<UInt64>() { return 64; }
 
 template<>
-SizeT GetBitSize<Float64>() { return 64; }
+constexpr SizeT GetBitSize<Float32>() { return 32; }
+
+template<>
+constexpr SizeT GetBitSize<Float64>() { return 64; }
